@@ -205,7 +205,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/Sameeksha200416/Portfolio-Website/issues)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/sonamnimje/Portfolio-Website/issues)
 - **Email**: Replace with your email in the contact section
 - **LinkedIn**: Add your LinkedIn profile link
 
