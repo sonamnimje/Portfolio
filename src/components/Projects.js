@@ -65,40 +65,25 @@ const Projects = () => {
         'Performance analytics dashboard',
         'Multiple interview modes'
       ],
-      liveLink: '#',
+      liveLink: 'https://voiceiq-eta.vercel.app/',
       githubLink: 'https://github.com/sonamnimje/VoiceIQ-AI-Voice-Interview-Assistant',
       icon: 'fas fa-microphone',
       image: '/images/voiceiq-preview.png'
     },
     {
-      title: '📸 Image Caption Generator',
-      description: 'A computer vision + NLP application that generates descriptive captions for uploaded images automatically. Built using deep learning models for visual recognition and text generation.',
-      technologies: ['HTML', 'CSS', 'JavaScript', 'Python'],
+      title: '🏥 HealthQ – AI Hospital Queue Management',
+      description: 'Intelligent hospital management system that optimizes patient flow and predicts wait times to reduce congestion, improve resource allocation, and enhance patient experience.',
+      technologies: ['React', 'FastAPI', 'Python', 'scikit-learn', 'Random Forest', 'Framer Motion'],
       keyFeatures: [
-        'Image-to-text captioning',
-        'Neural network-based interpretation',
-        'Simple and responsive UI'
+        'AI-powered wait time prediction',
+        'Real-time bed availability & predictive allocation',
+        'Priority-based OPD queue with live ETA'
       ],
       liveLink: '#',
-      githubLink: 'https://github.com/sonamnimje/Image-caption-generator',
-      icon: 'fas fa-image',
-      image: '/images/imagecaption-preview.png'
+      githubLink: 'https://github.com/sonamnimje/healthQ',
+      icon: 'fas fa-hospital',
+      image: '/images/healthq-preview.png'
     },
-    {
-      title: '💼 JobPortal',
-      description: 'A responsive web application connecting employers and job seekers. Employers can post jobs and manage applicants, while users can search and apply for roles.',
-      technologies: ['Flask', 'Python', 'HTML', 'CSS', 'Bootstrap', 'SQLite'],
-      keyFeatures: [
-        'Authentication & role-based access',
-        'Job search & filtering',
-        'Employer dashboard',
-        'Application tracking system'
-      ],
-      liveLink: '#',
-      githubLink: 'https://github.com/sonamnimje/Jobportal',
-      icon: 'fas fa-briefcase',
-      image: '/images/jobportal-preview.png'
-    }
   ];
 
   return (

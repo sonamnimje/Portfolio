@@ -39,13 +39,6 @@ const Hero = () => {
             >
               View My Projects
             </button>
-            <a
-              className="btn btn-primary"
-              href="/resume.pdf"
-              download
-            >
-              Download Resume
-            </a>
             <button
               className="btn btn-secondary"
               onClick={() => scrollToSection('contact')}

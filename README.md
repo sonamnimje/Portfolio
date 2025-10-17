@@ -64,7 +64,7 @@ Portfolio-Website/
 1. **Clone the repository**
    ```bash
    git clone https://github.com/sonamnimje/Portfolio.git
-   cd Portfolio-Website
+   cd Portfolio
    ```
 
 2. **Install dependencies**
@@ -79,7 +79,6 @@ Portfolio-Website/
 
 4. **Open your browser**
    - Visit [http://localhost:3000](http://localhost:3000)
-   - For vanilla HTML version, open `index.html` directly
 
 ### Build for Production
 
