@@ -11,6 +11,19 @@ const Achievements = () => {
 
   const achievements = [
     {
+      title: 'Smart India Hackathon (SIH) 2025',
+      subtitle: 'National Level | Welingkar Institute of Management, Mumbai',
+      position: '1st Runner-Up',
+      description: 'Led an all-girls team in a 36-hour national hackathon to build an AI-based train traffic optimization system. Awarded ₹25,000 cash prize and team mementos.',
+      date: '2025',
+      type: '1st Runner-Up',
+      image: '/images/sih.jpeg',
+      category: 'National Hackathon',
+      side: 'left',
+      icon: 'fas fa-trophy',
+      isHighlighted: true
+    },
+    {
       title: 'Ecopreneur Hackathon 2025',
       subtitle: 'BGIEM Jabalpur',
       position: '1st Runner-Up',
@@ -19,20 +32,9 @@ const Achievements = () => {
       type: '1st Runner-Up',
       image: '/images/ecopreneur.jpg',
       category: 'Hackathon',
-      side: 'left',
-      icon: 'fas fa-trophy'
-    },
-    {
-      title: 'Global Entrepreneurship Summit 2025',
-      subtitle: 'IIT KHARAGPUR',
-      position: 'Participant',
-      description: 'Participated in the Global Entrepreneurship Summit at IIT Kharagpur, gaining exposure to entrepreneurial ideas and networking with innovators.',
-      date: 'Feb 2025',
-      type: 'Participants',
-      image: '/images/entrepreneurship.jpg',
-      category: 'Business Innovation',
       side: 'right',
-      icon: 'fas fa-lightbulb'
+      icon: 'fas fa-trophy',
+      isHighlighted: true
     },
     {
       title: 'HackSRIT 2025',
@@ -45,6 +47,18 @@ const Achievements = () => {
       category: 'Hackathon',
       side: 'left',
       icon: 'fas fa-code'
+    },
+    {
+      title: 'Global Entrepreneurship Summit 2025',
+      subtitle: 'IIT KHARAGPUR',
+      position: 'Participant',
+      description: 'Participated in the Global Entrepreneurship Summit at IIT Kharagpur, gaining exposure to entrepreneurial ideas and networking with innovators.',
+      date: 'Feb 2025',
+      type: 'Participants',
+      image: '/images/entrepreneurship.jpg',
+      category: 'Business Innovation',
+      side: 'right',
+      icon: 'fas fa-lightbulb'
     }
   ];
 
@@ -150,7 +164,7 @@ const Achievements = () => {
                 <p className="achievement-description">{achievement.description}</p>
 
                 <div className="achievement-badge">
-                  <span className={`badge ${achievement.type.toLowerCase().replace(/\s+/g, '-').replace(/^(\d)/, 'first-')}`}>
+                  <span className={`badge ${achievement.type.toLowerCase().replace(/\s+/g, '-').replace(/^(\d)/, 'first-')} ${achievement.isHighlighted ? 'badge-highlighted' : ''}`}>
                     {achievement.type}
                   </span>
                 </div>
@@ -169,7 +183,7 @@ const Achievements = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <div className="stat-item">
-            <div className="stat-number">3+</div>
+            <div className="stat-number">4+</div>
             <div className="stat-label">Hackathons Participated</div>
           </div>
           <div className="stat-item">
@@ -177,7 +191,7 @@ const Achievements = () => {
             <div className="stat-label">Active Year</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">2</div>
+            <div className="stat-number">3</div>
             <div className="stat-label">Awards Won</div>
           </div>
         </motion.div>

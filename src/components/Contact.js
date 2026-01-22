@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import emailjs from '@emailjs/browser';
+import { EMAILJS_CONFIG } from '../config/emailjs.config';
 import './Contact.css';
 
 const Contact = () => {
@@ -17,17 +19,75 @@ const Contact = () => {
   });
 
   const [notification, setNotification] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Initialize EmailJS
+  React.useEffect(() => {
+    if (EMAILJS_CONFIG.PUBLIC_KEY && EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+      emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    }
+  }, []);
 
   const handleChange = (e) => {
+    let value = e.target.value;
+    
+    // Trim whitespace for email field
+    if (e.target.name === 'email') {
+      value = value.trim();
+    }
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: value
     });
   };
 
+  const formatEmail = (email) => {
+    // Trim whitespace and convert to lowercase for consistent formatting
+    return email.trim().toLowerCase();
+  };
+
   const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    // More comprehensive email validation regex
+    // Validates: local-part@domain.extension
+    // Allows letters, numbers, dots, hyphens, underscores, and plus signs
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const trimmedEmail = email.trim();
+    
+    if (!trimmedEmail) {
+      return false;
+    }
+    
+    // Check for valid email format
+    if (!emailRegex.test(trimmedEmail)) {
+      return false;
+    }
+    
+    // Additional checks
+    // Email should not start or end with dot, hyphen, or underscore
+    const localPart = trimmedEmail.split('@')[0];
+    const domain = trimmedEmail.split('@')[1];
+    
+    if (!localPart || !domain) {
+      return false;
+    }
+    
+    // Local part should not start/end with special characters
+    if (/^[._-]|[._-]$/.test(localPart)) {
+      return false;
+    }
+    
+    // Domain should not start/end with special characters
+    if (/^[.-]|[.-]$/.test(domain)) {
+      return false;
+    }
+    
+    // Domain should have at least one dot
+    if (!domain.includes('.')) {
+      return false;
+    }
+    
+    return true;
   };
 
   const showNotification = (message, type = 'info') => {
@@ -35,7 +95,7 @@ const Contact = () => {
     setTimeout(() => setNotification(null), 5000);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
@@ -43,13 +103,81 @@ const Contact = () => {
       return;
     }
     
-    if (!isValidEmail(formData.email)) {
-      showNotification('Please enter a valid email address', 'error');
+    // Format and validate email
+    const formattedEmail = formatEmail(formData.email);
+    
+    if (!isValidEmail(formattedEmail)) {
+      showNotification('Please enter a valid email address (e.g., example@domain.com)', 'error');
+      return;
+    }
+
+    // Check if EmailJS is configured
+    if (!EMAILJS_CONFIG.SERVICE_ID || EMAILJS_CONFIG.SERVICE_ID === 'YOUR_SERVICE_ID' || 
+        !EMAILJS_CONFIG.TEMPLATE_ID || EMAILJS_CONFIG.TEMPLATE_ID === 'YOUR_TEMPLATE_ID' || 
+        !EMAILJS_CONFIG.PUBLIC_KEY || EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+      showNotification('Email service is not configured. Please set up EmailJS credentials in src/config/emailjs.config.js', 'error');
       return;
     }
     
-    showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+    
+    // Debug: Log configuration
+    console.log('EmailJS Configuration:', {
+      SERVICE_ID: EMAILJS_CONFIG.SERVICE_ID,
+      TEMPLATE_ID: EMAILJS_CONFIG.TEMPLATE_ID,
+      PUBLIC_KEY: EMAILJS_CONFIG.PUBLIC_KEY ? `${EMAILJS_CONFIG.PUBLIC_KEY.substring(0, 10)}...` : 'Not set'
+    });
+    
+    try {
+      // Format email to ensure proper format (trimmed and lowercase)
+      const formattedEmail = formatEmail(formData.email);
+      
+      const templateParams = {
+        from_name: formData.name.trim(),
+        from_email: formattedEmail, // Properly formatted email
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+        reply_to: formattedEmail, // This allows you to reply directly to the sender
+        // Additional formatted fields for better email display
+        user_name: formData.name.trim(),
+        user_email: formattedEmail,
+        email_subject: formData.subject.trim(),
+        email_message: formData.message.trim(),
+      };
+
+      console.log('Sending email with params:', templateParams);
+      console.log('Using Service ID:', EMAILJS_CONFIG.SERVICE_ID);
+      console.log('Using Template ID:', EMAILJS_CONFIG.TEMPLATE_ID);
+
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams
+      );
+
+      console.log('Email sent successfully!', response);
+      showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('EmailJS Error Details:', error);
+      console.error('Error Code:', error.code);
+      console.error('Error Text:', error.text);
+      console.error('Error Status:', error.status);
+      
+      let errorMessage = 'Failed to send message. ';
+      
+      if (error.text) {
+        errorMessage += `Error: ${error.text}`;
+      } else if (error.message) {
+        errorMessage += `Error: ${error.message}`;
+      } else {
+        errorMessage += 'Please check your EmailJS configuration or try again later.';
+      }
+      
+      showNotification(errorMessage, 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -142,10 +270,21 @@ const Contact = () => {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="Your Email"
+                placeholder="Your Email (e.g., name@example.com)"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={(e) => {
+                  // Format email on blur (when user leaves the field)
+                  const formatted = formatEmail(e.target.value);
+                  if (formatted && formatted !== e.target.value) {
+                    setFormData({
+                      ...formData,
+                      email: formatted
+                    });
+                  }
+                }}
                 required
+                autoComplete="email"
               />
             </div>
             <div className="form-group">
@@ -170,8 +309,12 @@ const Contact = () => {
                 required
               ></textarea>
             </div>
-            <button type="submit" className="btn btn-primary">
-              Send Message
+            <button 
+              type="submit" 
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </motion.form>
         </div>
