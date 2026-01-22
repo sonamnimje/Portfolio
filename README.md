@@ -13,7 +13,7 @@
 - **📱 Fully Responsive** - Optimized for all devices and screen sizes
 - **⚡ Fast Performance** - Lightweight and optimized for speed
 - **🎭 Smooth Animations** - Powered by Framer Motion and CSS transitions
-- **📧 Contact Form** - Functional contact form with validation
+- **📧 Contact Form** - Functional contact form with EmailJS integration, professional email templates, and advanced email validation
 - **🌐 Cross-Browser** - Compatible with all modern browsers
 - **♿ Accessible** - WCAG compliant and screen reader friendly
 
@@ -24,6 +24,9 @@
 - React 18.2.0
 - Framer Motion 10.16.4
 - Font Awesome Icons
+
+**Backend Services:**
+- EmailJS - Email service for contact form submissions
 
 **Tools:**
 - Node.js & npm
@@ -39,19 +42,22 @@ Portfolio-Website/
 │   ├── index.html             # React app entry point
 │   ├── profile.jpg            # Profile image
 │   └── 📁 images/             # Project screenshots and assets
-└── 📁 src/                    # React components
-    ├── App.js                 # Main React app
-    ├── index.js               # React entry point
-    └── 📁 components/         # Reusable components
-        ├── Header.js          # Navigation component
-        ├── Hero.js            # Landing section
-        ├── About.js           # About section
-        ├── Education.js       # Education background
-        ├── Skills.js          # Technical skills
-        ├── Projects.js        # Project showcase
-        ├── Achievements.js    # Awards and achievements
-        ├── Contact.js         # Contact form
-        └── Footer.js          # Footer component
+├── 📁 src/                    # React components
+│   ├── App.js                 # Main React app
+│   ├── index.js               # React entry point
+│   ├── 📁 components/         # Reusable components
+│   │   ├── Header.js          # Navigation component
+│   │   ├── Hero.js            # Landing section
+│   │   ├── About.js           # About section
+│   │   ├── Education.js       # Education background
+│   │   ├── Skills.js          # Technical skills
+│   │   ├── Projects.js        # Project showcase
+│   │   ├── Achievements.js    # Awards and achievements
+│   │   ├── Contact.js         # Contact form with EmailJS
+│   │   └── Footer.js          # Footer component
+│   └── 📁 config/              # Configuration files
+│       └── emailjs.config.js  # EmailJS service configuration
+└── 📄 EMAILJS_TEMPLATE.html   # Professional HTML email template
 ```
 
 ## 🚀 Quick Start
@@ -97,7 +103,7 @@ npm run build
 | **💻 Skills** | Technical skills and proficiencies | Categorized skill sets, visual indicators |
 | **🚀 Projects** | Featured project showcase | Live demos, GitHub links, tech stacks |
 | **🏆 Achievements** | Awards and recognitions | Achievement cards, certificates |
-| **📧 Contact** | Contact form and information | Working form, social media links |
+| **📧 Contact** | Contact form and information | EmailJS integration, professional email templates, advanced validation, auto-formatting |
 
 
 ## 🔧 Browser Support
