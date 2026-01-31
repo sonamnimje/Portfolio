@@ -11,7 +11,7 @@ const Projects = () => {
 
   const projects = [
     {
-      title: '🚆 RailAnukriti',
+      title: '🚆 Rail Sarthi',
       description: 'AI-powered train traffic optimization system for Indian Railways. Uses reinforcement learning and constraint optimization to schedule trains, manage crossings, and allocate platforms in real-time. Includes explainable AI insights, digital twin simulation, and human-in-the-loop overrides.',
       technologies: ['React', 'FastAPI', 'Python', 'OR-Tools', 'PyTorch', 'Graph Neural Networks'],
       keyFeatures: [
@@ -20,7 +20,7 @@ const Projects = () => {
         'Adaptive learning from overrides',
         'Live dashboard with analytics'
       ],
-      liveLink: 'https://rail-anukriti-7u8e.vercel.app/',
+      liveLink: 'https://rail-sarthii-7u8e.vercel.app/',
       githubLink: 'https://github.com/sonamnimje/RailAnukriti',
       icon: 'fas fa-train',
       image: '/images/railanukriti-preview.png'
