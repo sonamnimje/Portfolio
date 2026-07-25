@@ -1,14 +1,23 @@
-/* Footer */
+/* ─── Footer ──────────────────────────────────────────────────────────── */
 .footer {
-  background: #0f1a2b;
-  color: var(--text);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 0;
   text-align: center;
-  padding: 2rem 0;
-  border-top: 1px solid rgba(32, 49, 80, 0.6);
 }
 
 .footer p {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  line-height: 1.7;
 }
+
+.footer a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.footer a:hover { opacity: 0.75; }

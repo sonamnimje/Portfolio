@@ -1,13 +1,94 @@
-body {
+/* ─── Design System ─────────────────────────────────────────────────── */
+*, *::before, *::after {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+/* ─── Light Theme (default) ─────────────────────────────────────────── */
+:root {
+  --bg:            #F8FAFC;
+  --bg-pure:       #FFFFFF;
+  --bg-card:       rgba(255,255,255,0.72);
+  --bg-glass:      rgba(255,255,255,0.60);
+  --text:          #111827;
+  --text-muted:    #374151;
+  --text-soft:     #6B7280;
+  --primary:       #8B5CF6;
+  --primary-mid:   #6366F1;
+  --primary-light: #A855F7;
+  --primary-faint: rgba(139,92,246,0.10);
+  --primary-glow:  rgba(139,92,246,0.25);
+  --border:        rgba(139,92,246,0.12);
+  --border-soft:   rgba(0,0,0,0.06);
+  --shadow-sm:     0 2px 8px rgba(139,92,246,0.08);
+  --shadow-md:     0 8px 30px rgba(139,92,246,0.14);
+  --shadow-lg:     0 20px 60px rgba(139,92,246,0.18);
+  --blob-a:        rgba(168,85,247,0.18);
+  --blob-b:        rgba(99,102,241,0.14);
+  --blob-c:        rgba(236,72,153,0.10);
+  --nav-bg:        rgba(255,255,255,0.80);
+  --transition:    all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ─── Dark Theme ────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:            #0D0D14;
+  --bg-pure:       #13131F;
+  --bg-card:       rgba(255,255,255,0.05);
+  --bg-glass:      rgba(255,255,255,0.04);
+  --text:          #F1F5F9;
+  --text-muted:    #CBD5E1;
+  --text-soft:     #94A3B8;
+  --primary:       #A78BFA;
+  --primary-mid:   #818CF8;
+  --primary-light: #C084FC;
+  --primary-faint: rgba(167,139,250,0.12);
+  --primary-glow:  rgba(167,139,250,0.30);
+  --border:        rgba(167,139,250,0.18);
+  --border-soft:   rgba(255,255,255,0.08);
+  --shadow-sm:     0 2px 8px rgba(0,0,0,0.30);
+  --shadow-md:     0 8px 30px rgba(0,0,0,0.40);
+  --shadow-lg:     0 20px 60px rgba(0,0,0,0.50);
+  --blob-a:        rgba(167,139,250,0.12);
+  --blob-b:        rgba(129,140,248,0.10);
+  --blob-c:        rgba(236,72,153,0.08);
+  --nav-bg:        rgba(13,13,20,0.85);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins', 'Inter', sans-serif;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+::selection {
+  background: var(--primary-glow);
+  color: var(--text);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary), var(--primary-mid));
+  border-radius: 3px;
 }
