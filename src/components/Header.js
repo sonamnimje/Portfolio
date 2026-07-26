@@ -1,19 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../App';
+import { usePage  } from '../App';
+import { ScrollProgress } from './HomeSections';
 import './Header.css';
 
 const NAV_LINKS = [
-  { label: 'About',      id: 'about' },
-  {label: 'Education',   id:'education'},
-  { label: 'Tech Stack', id: 'skills' },
-  { label: 'Projects',   id: 'projects' },
+  { label: 'About',        id: 'about'        },
+  { label: 'Education',    id: 'education'    },
+  { label: 'Tech Stack',   id: 'skills'       },
+  { label: 'Projects',     id: 'projects'     },
   { label: 'Achievements', id: 'achievements' },
-  { label: 'Contact',    id: 'contact' },
-  
+  { label: 'Contact',      id: 'contact'      },
 ];
 
-/* ── Sun / Moon SVG icons ───────────────────────────────────────────── */
+/* ── Icons ──────────────────────────────────────────────────────────── */
 const SunIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -36,40 +37,31 @@ const MoonIcon = () => (
   </svg>
 );
 
+/* ── Component ──────────────────────────────────────────────────────── */
 const Header = () => {
-  const { theme, toggleTheme } = useTheme();
-  const [isMenuOpen, setIsMenuOpen]   = useState(false);
-  const [scrolled, setScrolled]       = useState(false);
-  const [activeSection, setActiveSection] = useState('');
-  const indicatorRef = useRef(null);
-  const navMenuRef   = useRef(null);
+  const { theme, toggleTheme }   = useTheme();
+  const { activePage, navigate } = usePage();
 
-  /* scroll listener */
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled,   setScrolled  ] = useState(false);
+
+  /* Close mobile menu when page changes */
+  useEffect(() => { setIsMenuOpen(false); }, [activePage]);
+
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 40);
-
-      // highlight active section
-      const sections = NAV_LINKS.map(n => document.getElementById(n.id)).filter(Boolean);
-      const inView = sections.find(s => {
-        const r = s.getBoundingClientRect();
-        return r.top <= 120 && r.bottom > 120;
-      });
-      if (inView) setActiveSection(inView.id);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  const handleNav = (id) => {
+    navigate(id);
     setIsMenuOpen(false);
   };
 
-  const scrollToTop = (e) => {
+  const handleHome = (e) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate('home');
     setIsMenuOpen(false);
   };
 
@@ -77,25 +69,27 @@ const Header = () => {
     <motion.nav
       className={`navbar ${scrolled ? 'scrolled' : ''}`}
       initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      animate={{ y: 0,   opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
+      <ScrollProgress />
       <div className="nav-container">
-        {/* Logo */}
-        <a href="#home" className="nav-logo" onClick={scrollToTop} aria-label="Home">
+
+        {/* Logo → goes home */}
+        <a href="#home" className="nav-logo" onClick={handleHome} aria-label="Home">
           <span className="nav-logo-bracket">&lt;</span>
           <span className="nav-logo-name">Sonam</span>
           <span className="nav-logo-bracket">/&gt;</span>
         </a>
 
-        {/* Desktop nav links */}
-        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`} ref={navMenuRef}>
+        {/* Desktop + mobile nav links */}
+        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           {NAV_LINKS.map(({ label, id }) => (
             <li key={id} className="nav-item">
               <button
-                className={`nav-link ${activeSection === id ? 'active' : ''}`}
-                onClick={() => scrollTo(id)}
-                aria-label={`Navigate to ${label}`}
+                className={`nav-link ${activePage === id ? 'active' : ''}`}
+                onClick={() => handleNav(id)}
+                aria-label={`Go to ${label}`}
               >
                 {label}
                 <span className="nav-link-dot" />
@@ -106,7 +100,6 @@ const Header = () => {
 
         {/* Right actions */}
         <div className="nav-actions">
-          {/* Dark / Light toggle */}
           <motion.button
             className="theme-toggle"
             onClick={toggleTheme}
@@ -127,7 +120,6 @@ const Header = () => {
             </AnimatePresence>
           </motion.button>
 
-          {/* Hamburger */}
           <button
             className={`hamburger ${isMenuOpen ? 'open' : ''}`}
             onClick={() => setIsMenuOpen(v => !v)}
@@ -141,7 +133,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile menu backdrop */}
+      {/* Mobile backdrop */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div

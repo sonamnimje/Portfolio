@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, useSpring } from 'framer-motion';
+import { usePage } from '../App';
+import HomeSections from './HomeSections';
 import './Hero.css';
 
-/* ─────────────────────────────────────────────────────────────────────
-   TYPING ANIMATION HOOK
-──────────────────────────────────────────────────────────────────────── */
 const ROLES = [
   'AI/ML Engineer',
   'Full Stack Developer',
@@ -40,9 +39,6 @@ function useTyping(words, typingSpeed = 80, deleteSpeed = 45, pause = 1600) {
   return display;
 }
 
-/* ─────────────────────────────────────────────────────────────────────
-   MAGNETIC BUTTON
-──────────────────────────────────────────────────────────────────────── */
 const MagneticButton = ({ children, className, onClick, strength = 0.35, ...rest }) => {
   const ref   = useRef(null);
   const xRaw  = useSpring(0, { stiffness: 200, damping: 20 });
@@ -74,13 +70,7 @@ const MagneticButton = ({ children, className, onClick, strength = 0.35, ...rest
   );
 };
 
-/* ─────────────────────────────────────────────────────────────────────
-   CLASSIC LINE-ART AVATAR (restored from public/avatar.svg)
-   • Default: calm smile, glasses, default hair
-   • Hover:   happy curved eyes, wide smile, bounce+tilt, hair bounces,
-              glasses lift, motion lines, sparkles
-   • Mouse:   pupils inside glasses follow cursor
-──────────────────────────────────────────────────────────────────────── */
+
 const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
   const containerRef = useRef(null);
   const [eyeOffset, setEyeOffset] = useState({ x: 0, y: 0 });
@@ -113,7 +103,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
         {/* Background circle */}
         <circle cx="100" cy="100" r="96" fill="white" stroke="#C4B5FD" strokeWidth="2.5"/>
 
-        {/* ── Sparkles (appear on hover) ── */}
         <g className={`av-sparkles ${isHovered ? 'av-sparkles-show' : ''}`}>
           {[
             [18, 30, 0], [172, 22, 30], [14, 162, 15],
@@ -129,7 +118,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
           ))}
         </g>
 
-        {/* ── Motion lines (hover) ── */}
         <g
           className={`av-motion-lines ${isHovered ? 'av-motion-show' : ''}`}
           stroke="#1a1a1a" strokeWidth="2.2" strokeLinecap="round" fill="none"
@@ -141,8 +129,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
           <path d="M164 90 L178 88"/>
           <path d="M160 112 L173 118"/>
         </g>
-
-        {/* ── Hair default ── */}
         <g
           className={`av-hair-rest ${isHovered ? 'av-hide' : ''}`}
           fill="#1a1a1a" stroke="#1a1a1a" strokeWidth="2" strokeLinejoin="round"
@@ -154,8 +140,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
             C 124 88 128 100 127 118 C 130 108 132 96 130 84 C 136 92 138 108 136 126
             C 140 118 143 108 144 96 C 146 66 134 40 100 40 Z"/>
         </g>
-
-        {/* ── Hair bounce (hover) ── */}
         <g
           className={`av-hair-bounce-state ${isHovered ? '' : 'av-hide'}`}
           fill="#1a1a1a" stroke="#1a1a1a" strokeWidth="2" strokeLinejoin="round"
@@ -167,19 +151,14 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
             C 125 82 130 96 129 118 C 132 106 133 92 131 78 C 138 88 141 106 139 128
             C 143 118 147 106 148 92 C 150 62 136 36 100 36 Z"/>
         </g>
-
-        {/* ── Face circle ── */}
         <circle cx="100" cy="104" r="52" fill="white" stroke="#1a1a1a" strokeWidth="3.5"/>
 
-        {/* ── Hair front fringe (over face) ── */}
         <path
           d="M56 92 C 60 70 78 58 100 58 C 122 58 140 70 144 92
              C 136 82 122 76 112 80 C 108 74 100 72 96 78
              C 88 74 80 78 76 84 C 68 80 60 84 56 92 Z"
           fill="#1a1a1a"
         />
-
-        {/* ── Glasses frame ── */}
         <g
           className={`av-glasses ${isHovered ? 'av-glasses-lift' : ''}`}
           stroke="#1a1a1a" strokeWidth="3" fill="none" strokeLinecap="round"
@@ -191,7 +170,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
           <path d="M133 102 L142 98"/>
         </g>
 
-        {/* ── Eyes: default (pupils follow cursor through glasses) ── */}
         <g className={`av-eyes-default ${isHovered ? 'av-eyes-hide' : ''}`}>
           {/* Left pupil */}
           <circle
@@ -214,7 +192,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
           />
         </g>
 
-        {/* ── Eyes: happy (hover) ── */}
         <g className={`av-eyes-happy ${isHovered ? 'av-eyes-show' : ''}`}>
           {/* Happy curved eyes */}
           <path d="M75 104 Q82 98 89 104" stroke="#1a1a1a" strokeWidth="3"
@@ -229,7 +206,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
           <circle cx="130" cy="96" r="1.8" fill="#A78BFA" opacity="0.9"/>
         </g>
 
-        {/* ── Blush cheeks ── */}
         <ellipse
           cx="70" cy="118" rx="7" ry="3.5"
           fill="#1a1a1a" opacity="0"
@@ -245,10 +221,6 @@ const GhibliAvatar = ({ mouseX, mouseY, isHovered }) => {
     </div>
   );
 };
-
-/* ─────────────────────────────────────────────────────────────────────
-   SOCIAL ICONS
-──────────────────────────────────────────────────────────────────────── */
 const SOCIALS = [
   { href: 'https://github.com/sonamnimje',                          icon: 'fab fa-github',   label: 'GitHub'   },
   { href: 'https://www.linkedin.com/in/sonam-nimje-b385b3258/',     icon: 'fab fa-linkedin', label: 'LinkedIn' },
@@ -273,11 +245,9 @@ const SocialLink = ({ href, icon, label, index }) => (
   </motion.a>
 );
 
-/* ─────────────────────────────────────────────────────────────────────
-   HERO MAIN
-──────────────────────────────────────────────────────────────────────── */
 const Hero = () => {
   const typedRole  = useTyping(ROLES);
+  const { navigate } = usePage();
   const [hovered,  setHovered]  = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -289,11 +259,6 @@ const Hero = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [handleMouseMove]);
-
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
 
   /* Floating avatar spring */
   const floatY = useSpring(0, { stiffness: 60, damping: 12 });
@@ -319,11 +284,10 @@ const Hero = () => {
   };
 
   return (
+    <>
     <section id="home" className="hero" aria-label="Hero section">
 
       <div className="hero-container">
-
-        {/* ── LEFT: Text content ── */}
         <motion.div
           className="hero-content"
           variants={containerVariants}
@@ -339,7 +303,7 @@ const Hero = () => {
           {/* Heading */}
           <motion.h1 variants={itemVariants} className="hero-title">
             <span className="hero-name gradient-text">Sonam Nimje</span>
-            <span className="hero-wave" role="img" aria-label="sparkle"> ✨</span>
+            <span className="hero-wave" role="img" aria-label="sparkle">✨</span>
           </motion.h1>
 
           {/* Typing subtitle */}
@@ -357,61 +321,14 @@ const Hero = () => {
             and data-driven solutions that solve real-world problems.
           </motion.p>
 
-          {/* Tech Stack Icons */}
-          <motion.div variants={itemVariants} className="hero-tech-stack">
-            <span className="hero-tech-label">TECH STACK</span>
-            <div className="hero-tech-grid">
-              {/* Row 1 */}
-              {[
-                { title: 'Python',     jsx: <i className="fab fa-python"     style={{color:'#3776AB'}}/> },
-                { title: 'React',      jsx: <i className="fab fa-react"      style={{color:'#61DAFB'}}/> },
-                { title: 'JavaScript', jsx: <i className="fab fa-js"         style={{color:'#F7DF1E'}}/> },
-                { title: 'Node.js',    jsx: <i className="fab fa-node-js"    style={{color:'#339933'}}/> },
-                { title: 'Django',     jsx: <i className="fab fa-python"     style={{color:'#092E20'}}/> },
-                { title: 'Git',        jsx: <i className="fab fa-git-alt"    style={{color:'#F05032'}}/> },
-                { title: 'GitHub',     jsx: <i className="fab fa-github"     style={{color:'#181717'}}/> },
-                { title: 'Docker',     jsx: <i className="fab fa-docker"     style={{color:'#2496ED'}}/> },
-                { title: 'HTML5',      jsx: <i className="fab fa-html5"      style={{color:'#E34F26'}}/> },
-                { title: 'CSS3',       jsx: <i className="fab fa-css3-alt"   style={{color:'#1572B6'}}/> },
-                /* Tailwind — inline SVG */
-                { title: 'Tailwind',   jsx: (
-                    <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
-                      <path d="M16 6.4c-4.267 0-6.933 2.133-8 6.4 1.6-2.133 3.467-2.933 5.6-2.4.914.228 1.564.89 2.285 1.624C17.234 13.39 18.656 14.8 21.6 14.8c4.267 0 6.933-2.133 8-6.4-1.6 2.133-3.467 2.933-5.6 2.4-.914-.228-1.564-.89-2.285-1.624C20.366 7.81 18.944 6.4 16 6.4zM8 14.8c-4.267 0-6.933 2.133-8 6.4 1.6-2.133 3.467-2.933 5.6-2.4.914.228 1.564.89 2.285 1.624C9.234 21.79 10.656 23.2 13.6 23.2c4.267 0 6.933-2.133 8-6.4-1.6 2.133-3.467 2.933-5.6 2.4-.914-.228-1.564-.89-2.285-1.624C12.366 16.21 10.944 14.8 8 14.8z" fill="#38BDF8"/>
-                    </svg>
-                  )
-                },
-                /* Next.js — N logo */
-                { title: 'Next.js',    jsx: (
-                    <svg viewBox="0 0 32 32" width="22" height="22">
-                      <circle cx="16" cy="16" r="16" fill="#000"/>
-                      <path d="M26.116 27.4L12.8 10.4H10.4v11.197h1.92V12.48L24.88 28.67a13.84 13.84 0 001.236-1.27zM20.267 10.4h1.92v11.2h-1.92z" fill="#fff"/>
-                    </svg>
-                  )
-                },
-                /* PostgreSQL elephant */
-                { title: 'PostgreSQL', jsx: (
-                    <svg viewBox="0 0 32 32" width="22" height="22">
-                      <path d="M23.2 5.6c-1.2-.267-2.453-.293-3.573.027-.96-.72-2.187-1.093-3.627-1.093-2.373 0-4.08 1.12-5.12 2.56C8.933 7.44 7.467 9.227 7.467 12c0 1.92.48 3.547 1.44 4.8.427.56.96 1.04 1.6 1.44l-.267 2.027c-.16 1.2.4 2.347 1.44 2.88l1.28.64c.48.24 1.013.373 1.547.373.64 0 1.28-.187 1.84-.533l.453-.28.507.267c.56.293 1.173.44 1.787.44.64 0 1.28-.16 1.84-.48l1.28-.72c.987-.56 1.52-1.653 1.387-2.8l-.16-1.52c.64-.4 1.173-.907 1.6-1.467.96-1.253 1.44-2.88 1.44-4.8-.013-2.56-1.2-4.347-3.28-5.177z" fill="#336791"/>
-                    </svg>
-                  )
-                },
-                /* Figma */
-                { title: 'Figma',      jsx: <i className="fab fa-figma" style={{color:'#F24E1E'}}/> },
-              ].map(({ title, jsx }) => (
-                <div className="tech-icon-tile" key={title} title={title}>
-                  {jsx}
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          
 
           {/* Buttons */}
           <motion.div variants={itemVariants} className="hero-buttons">
             <MagneticButton
               className="btn-primary"
               onClick={() => {
-                /* Replace href with actual resume URL */
-                window.open('#', '_blank');
+                window.open('https://drive.google.com/file/d/1B4sU8AmIkbCO4eYoeKWFkwBOIBMDblxG/view?usp=drive_link', '_blank');
               }}
             >
               <i className="fas fa-download" aria-hidden="true"/>
@@ -420,7 +337,7 @@ const Hero = () => {
 
             <MagneticButton
               className="btn-secondary"
-              onClick={() => scrollTo('projects')}
+              onClick={() => navigate('projects')}
             >
               <i className="fas fa-eye" aria-hidden="true"/>
               View Projects
@@ -454,8 +371,6 @@ const Hero = () => {
             ))}
           </motion.div>
         </motion.div>
-
-        {/* ── RIGHT: Avatar ── */}
         <motion.div
           className="hero-avatar-wrap"
           style={{ y: floatY }}
@@ -504,20 +419,6 @@ const Hero = () => {
               />
             </motion.div>
           </div>
-
-          {/* Hover tooltip */}
-          <motion.div
-            className="avatar-tooltip"
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-            animate={hovered
-              ? { opacity: 1, y: 0, scale: 1 }
-              : { opacity: 0, y: 10, scale: 0.9 }
-            }
-            transition={{ duration: 0.22 }}
-            aria-hidden="true"
-          >
-            ✨ Hover me!
-          </motion.div>
         </motion.div>
       </div>
 
@@ -534,9 +435,11 @@ const Hero = () => {
         </div>
         <span>Scroll</span>
       </motion.div>
+      
 
     </section>
+    <HomeSections />
+  </>
   );
 };
-
 export default Hero;

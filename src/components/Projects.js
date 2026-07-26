@@ -61,7 +61,7 @@ const Projects = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          💻 Projects
+          Projects
         </motion.h2>
         <div className="projects-grid" ref={ref}>
           {projects.map((project, index) => (
