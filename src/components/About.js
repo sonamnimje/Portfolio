@@ -70,7 +70,7 @@ const quickInfo = [
 const journey = [
   {
     title: 'How it Started',
-    body: 'My interest in technology began with curiosity about how software powers everyday life. During my Computer Science journey, I discovered that programming wasn\'t just about writing code — it was about solving meaningful problems. That curiosity gradually evolved into a passion for Artificial Intelligence, modern web development, and building applications that improve people\'s lives.',
+    body: 'My interest in technology began with curiosity about how software powers everyday life. During my Computer Science Engineering journey (graduating 2026), I discovered that programming wasn\'t just about writing code — it was about solving meaningful problems. That curiosity gradually evolved into a passion for Artificial Intelligence, modern web development, and building applications that improve people\'s lives.',
   },
   {
     title: 'What I Build',
@@ -177,7 +177,7 @@ const About = () => {
             animate={heroView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.22 }}
           >
-            I'm <strong>Sonam Nimje</strong> — an{' '}
+            I'm <strong>Sonam Nimje</strong> — a <strong>2026 Computer Science Engineering graduate</strong> and{' '}
             <span className="about-accent-soft">AI/ML Engineer</span> and{' '}
             <span className="about-accent-soft">Full Stack Developer</span> who enjoys
             transforming ideas into intelligent, user-friendly applications. I love{' '}

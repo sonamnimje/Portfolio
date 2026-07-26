@@ -624,7 +624,8 @@ const AboutPreview = () => {
               <Label>Who I Am</Label>
               <h2 className="hs-title">About Me</h2>
               <p className="hs-about-bio">
-                I'm <strong>Sonam Nimje</strong>, a Computer Science Engineering graduate
+                I'm <strong>Sonam Nimje</strong>, a <strong>2026 Computer Science Engineering graduate</strong> from
+                Baderia Global Institute of Engineering &amp; Management, Jabalpur,
                 specializing in <strong>AI/ML</strong>, <strong>Full Stack Development</strong>,
                 and <strong>Data Analytics</strong>. I love building intelligent applications
                 that solve real-world problems through clean code and innovative thinking.
